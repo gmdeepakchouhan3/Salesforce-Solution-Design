@@ -1,6 +1,10 @@
 **Sales Cloud Design**
 ============================================================================
 
+**Architecture Diagram**
+--
+![Architecture Diagram](https://github.com/gmdeepakchouhan3/SFDC-Solution-Design/blob/c3052a82c92b1b9b7c8fe8f919e8353cb8746e85/Sales%20Cloud%20Design/images/Sales%20Cloud%20Design.png)
+
 **1\. Project Overview**
 ------------------------
 
