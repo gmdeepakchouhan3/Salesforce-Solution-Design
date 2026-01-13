@@ -4,7 +4,7 @@
 
 ## 🎯 Overview
 
-This repository provides a comprehensive guide and templates for designing Salesforce solutions using industry best practices. Whether you're building a multi-cloud ecosystem, architecting data models, or configuring Lightning components, you'll find frameworks and examples to accelerate your projects.
+This repository offers a complete guide and ready-to-use templates for designing Salesforce solutions using industry best practices. Whether you are working on a multi-cloud setup, designing data models, or configuring Lightning components, you will find useful frameworks and examples to help you build solutions faster.
 
 ### What You'll Find Here
 
