@@ -90,6 +90,12 @@ Role flow:
 
 Managers can see their team’s data, but sales reps can only see their own territory data.
 
+#### Role Hierarchy Diagram
+![Role Hierarchy Diagram](https://github.com/gmdeepakchouhan3/SFDC-Solution-Design/blob/2a6f9252365777871e2a6fde948bce165986ed67/Sales%20Cloud%20Design/images/Sales%20Role%20Hierarchy-2.png)
+
+#### Salesforce Configuration
+![Salesforce Configuration](https://github.com/gmdeepakchouhan3/SFDC-Solution-Design/blob/2a6f9252365777871e2a6fde948bce165986ed67/Sales%20Cloud%20Design/images/SF%20Role%20Hierarchy.png)
+
 **5\. Profiles and Permissions**
 --------------------------------
 
@@ -226,7 +232,7 @@ Important reports include:
 **12\. Dashboards**
 -------------------
 
-### Executive Dashboards
+#### Executive Dashboards
 
 *   Total sales vs target
     
@@ -237,7 +243,7 @@ Important reports include:
 *   Top customers
     
 
-### Manager Dashboards
+#### Manager Dashboards
 
 *   Team pipeline and activities
     
@@ -246,7 +252,7 @@ Important reports include:
 *   Discount usage
     
 
-### Sales Rep Dashboards
+#### Sales Rep Dashboards
 
 *   My open opportunities
     
