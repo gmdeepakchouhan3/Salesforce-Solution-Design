@@ -91,9 +91,11 @@ Role flow:
 Managers can see their team’s data, but sales reps can only see their own territory data.
 
 #### Role Hierarchy Diagram
+---
 ![Role Hierarchy Diagram](https://github.com/gmdeepakchouhan3/SFDC-Solution-Design/blob/2a6f9252365777871e2a6fde948bce165986ed67/Sales%20Cloud%20Design/images/Sales%20Role%20Hierarchy-2.png)
 
 #### Salesforce Configuration
+---
 ![Salesforce Configuration](https://github.com/gmdeepakchouhan3/SFDC-Solution-Design/blob/2a6f9252365777871e2a6fde948bce165986ed67/Sales%20Cloud%20Design/images/SF%20Role%20Hierarchy.png)
 
 **5\. Profiles and Permissions**
@@ -116,6 +118,220 @@ Extra access is given using **Permission Sets**, for example:
     
 
 This makes security simple and flexible.
+
+
+#### Salesforce User Configuration
+---
+- **One Base Profile**
+
+   * All sales users use a basic profile (Sales User – Base)
+   * No approvals, no special pricing, no delete access
+
+- **Permission Sets for Control**
+
+   * Functional access is added using permission sets
+   * Easy to audit and change without profile impact
+
+- **Least Privilege Model**
+
+   * Users get only what they need
+   * Higher roles get broader visibility, not more edit power
+
+#### Permission Set Matrix
+---
+
+| Permission Set          | Sales Rep | Channel Head | Country Manager | Market VP | Global Sales Head |
+| ----------------------- | --------- | ------------ | --------------- | --------- | ----------------- |
+| Sales_Core_Access       | ✅         | ✅            | ✅               | ✅         | ✅                 |
+| Wholesaler_Access       | ✅*        | ✅            | ❌               | ❌         | ❌                 |
+| Retailer_Access         | ✅*        | ✅            | ❌               | ❌         | ❌                 |
+| D2C_Access              | ✅*        | ✅            | ❌               | ❌         | ❌                 |
+| Discount_Approver_L1    | ❌         | ✅            | ❌               | ❌         | ❌                 |
+| Discount_Approver_L2    | ❌         | ❌            | ✅               | ❌         | ❌                 |
+| Discount_Approver_L3    | ❌         | ❌            | ❌               | ✅         | ❌                 |
+| Discount_Approver_L4    | ❌         | ❌            | ❌               | ❌         | ✅                 |
+| Bulk_Order_Approval     | ❌         | ✅            | ✅               | ❌         | ❌                 |
+| Team_Report_Access      | ❌         | ✅            | ❌               | ❌         | ❌                 |
+| Country_Report_Access   | ❌         | ❌            | ✅               | ❌         | ❌                 |
+| Regional_Report_Access  | ❌         | ❌            | ❌               | ✅         | ❌                 |
+| Executive_Report_Access | ❌         | ❌            | ❌               | ❌         | ✅                 |
+| Forecast_User           | ❌         | ❌            | ✅               | ❌         | ❌                 |
+| Forecast_Manager        | ❌         | ❌            | ❌               | ✅         | ❌                 |
+| Forecast_Admin          | ❌         | ❌            | ❌               | ❌         | ✅                 |
+
+- Assigned based on the user’s sales channel
+
+#### Permission Set Descriptions
+---
+- Sales_Core_Access
+
+Assigned to **all sales users**.
+
+* Create/Edit Leads and Opportunities
+* Add Products to Opportunities
+* Log Tasks and Activities
+
+
+#### Channel Access Permission Sets
+---
+Wholesaler_Access / Retailer_Access / D2C_Access
+
+* Access to channel-specific record types
+* Visibility to relevant price books
+* Channel-specific sales stages
+
+A sales rep gets **only one channel permission set**.
+
+
+#### Discount Approval Permission Sets
+---
+| Permission Set       | Role              |
+| -------------------- | ----------------- |
+| Discount_Approver_L1 | Channel Head      |
+| Discount_Approver_L2 | Country Manager   |
+| Discount_Approver_L3 | Market VP         |
+| Discount_Approver_L4 | Global Sales Head |
+
+Includes:
+
+* Approve / Reject actions
+* Approval work item visibility
+* Read-only pricing fields
+
+#### Reporting Permission Sets
+---
+
+* **Team_Report_Access** – Channel-level dashboards
+* **Country_Report_Access** – Country-level dashboards
+* **Regional_Report_Access** – Region-level dashboards
+* **Executive_Report_Access** – Global dashboards
+
+
+#### Forecast Permission Sets
+---
+
+* **Forecast_User** – Submit forecast
+* **Forecast_Manager** – Adjust team forecast
+* **Forecast_Admin** – Global forecast control
+
+---
+
+### Real-Life Example:
+#### India Wholesaler Sales Rep
+
+* Profile: Sales User – Base
+* Permission Sets:
+
+  * Sales_Core_Access
+  * Wholesaler_Access
+
+Result: Can work on wholesaler deals in India only.
+
+
+#### India Country Manager
+---
+* Permission Sets:
+
+  * Sales_Core_Access
+  * Discount_Approver_L2
+  * Country_Report_Access
+  * Forecast_User
+
+Result: Can approve discounts and see all India sales data.
+
+
+#### Benefits of This Approach
+---
+* No profile explosion
+* Easy onboarding and offboarding
+* Strong security and compliance
+* Easy audits and access reviews
+* Salesforce-recommended best practice
+
+#### Object-Level Access Matrix
+---
+This section defines **which Salesforce objects each role can access** and what level of access is provided. Profiles remain minimal, and access is granted using Permission Sets.
+
+#### Object-Level Access Table
+
+| Salesforce Object | Sales Rep          | Channel Head                | Country Manager | Market VP    | Global Sales Head (CSO) |
+| ----------------- | ------------------ | --------------------------- | --------------- | ------------ | ----------------------- |
+| Leads             | Create, Read, Edit | Create, Read, Edit          | Full            | Full         | Full                    |
+| Accounts          | Read               | Create, Read, Edit          | Full            | Full         | Full                    |
+| Contacts          | Read               | Create, Read, Edit          | Full            | Full         | Full                    |
+| Opportunities     | Create, Read, Edit | Create, Read, Edit, Approve | Full            | Full         | Full                    |
+| Products          | Read               | Read                        | Read            | Read         | Read                    |
+| Price Books       | Read               | Read                        | Read            | Read         | Full                    |
+| Quotes            | Create, Read       | Create, Read, Edit          | Full            | Full         | Full                    |
+| Orders            | Read               | Create, Read                | Full            | Full         | Full                    |
+| Reports           | Read (My)          | Read (Team)                 | Create, Read    | Create, Read | Full                    |
+| Dashboards        | Read               | Read                        | Create, Read    | Create, Read | Full                    |
+
+#### Real-Life Example:
+
+A **Sales Rep in India** can create and update opportunities for their assigned retailer but **cannot edit price books**. The **Country Manager** can review and adjust opportunities across India.
+
+
+
+#### Field-Level Security (FLS) Matrix
+---
+
+Field-level security ensures **sensitive data is visible only to the right roles**, even when users can access the same record.
+
+#### Key Opportunity Fields
+
+| Field Name         | Sales Rep  | Channel Head | Country Manager | Market VP | CSO  |
+| ------------------ | ---------- | ------------ | --------------- | --------- | ---- |
+| Opportunity Amount | Edit       | Edit         | Edit            | Read      | Read |
+| Discount %         | Edit (≤7%) | Edit         | Edit            | Read      | Read |
+| Margin %           | Hidden     | Read         | Read            | Read      | Read |
+| Stage              | Edit       | Edit         | Edit            | Read      | Read |
+| Forecast Category  | Read       | Edit         | Edit            | Edit      | Edit |
+| Close Date         | Edit       | Edit         | Edit            | Read      | Read |
+
+#### Real-Life Example:
+
+A **Sales Rep** can enter discounts up to 7%, but **cannot see margin percentage**. The **Channel Head** can view margins before approving discounts.
+
+
+#### Product & Pricing Fields
+---
+
+This section explains access to **product catalog and pricing-related fields**, critical for multi-country and multi-currency sales.
+
+
+#### Product Object – Key Fields
+
+| Field Name     | Sales Rep | Channel Head | Country Manager | Market VP | CSO  |
+| -------------- | --------- | ------------ | --------------- | --------- | ---- |
+| Product Name   | Read      | Read         | Read            | Read      | Read |
+| Product Family | Read      | Read         | Read            | Read      | Read |
+| Cost Price     | Hidden    | Hidden       | Read            | Read      | Read |
+| Active         | Read      | Read         | Edit            | Edit      | Edit |
+
+
+#### Price Book Entry Fields
+
+| Field Name       | Sales Rep | Channel Head | Country Manager | Market VP | CSO  |
+| ---------------- | --------- | ------------ | --------------- | --------- | ---- |
+| List Price       | Read      | Read         | Read            | Read      | Read |
+| Discounted Price | Read      | Read         | Edit            | Edit      | Edit |
+| Currency         | Read      | Read         | Read            | Read      | Read |
+| Volume Tier      | Read      | Read         | Edit            | Edit      | Edit |
+
+#### Real-Life Example:
+
+For **EMEA Wholesaler Price Book**, a **Sales Rep** can view prices but cannot change them. The **Country Manager (Germany)** can update bulk pricing tiers for local market needs.
+
+
+#### Best Practices Followed
+---
+
+* Minimal profiles, access via Permission Sets
+* Sensitive financial fields protected using FLS
+* Price governance maintained at manager levels
+* Scalable model for adding new regions or channels
+
 
 **6\. Data Security and Visibility**
 ------------------------------------
