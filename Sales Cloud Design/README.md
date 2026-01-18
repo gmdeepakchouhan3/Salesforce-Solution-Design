@@ -336,15 +336,174 @@ For **EMEA Wholesaler Price Book**, a **Sales Rep** can view prices but cannot c
 **6\. Data Security and Visibility**
 ------------------------------------
 
-Security is very important in this project.
 
-*   **Opportunities** are private, so sales reps only see their own deals
-    
-*   **Role hierarchy** allows managers to see team data
-    
-*   **Territory management** is used to assign records based on country and region
-    
-*   **Sharing rules** are added only where extra access is needed
+Security is a critical requirement in this Salesforce Sales Cloud implementation. The design ensures that users can access **only the data they are authorized to see**, based on role, region, and responsibility. The model follows Salesforce best practices using **OWD, Role Hierarchy, Territory Management, Sharing Rules, and Permission Sets**.
+
+
+#### Organization-Wide Defaults (OWD)
+---
+OWD defines the base level of access for all users.
+
+#### OWD Configuration
+
+| Object        | OWD Setting          | Reason                              |
+| ------------- | -------------------- | ----------------------------------- |
+| Opportunities | Private              | Sales reps see only their own deals |
+| Accounts      | Private              | Access controlled by territory      |
+| Contacts      | Controlled by Parent | Follows Account visibility          |
+| Leads         | Private              | No cross-rep visibility             |
+| Quotes        | Private              | Pricing is sensitive                |
+| Orders        | Private              | Financial data protection           |
+
+#### Real-Life Example:
+
+An **India Sales Rep** can only see opportunities they own. A **Germany Sales Rep** cannot see India deals at all.
+
+
+#### Role Hierarchy (Manager Visibility)
+---
+Role hierarchy is used for **upward visibility only**. Managers automatically see records owned by their team members.
+
+#### Role Structure
+
+```
+Global Sales Head
+ └── Market VP
+      └── Country Manager
+           └── Channel Head
+                └── Sales Representative
+```
+
+#### Key Setting
+
+* Grant Access Using Hierarchies = Enabled
+
+#### Real-Life Example:
+
+When a Sales Rep creates an opportunity, the Channel Head, Country Manager, and Market VP can see it automatically.
+
+
+#### Territory Management (Country-Based)
+---
+Enterprise Territory Management is used to control **geographic data visibility**.
+
+#### Territory Model
+
+```
+Global
+ ├── APAC → India
+ ├── EMEA → Germany
+ ├── LATAM → Brazil
+ └── North America → USA
+ 
+```
+
+#### Territory Assignment Rule Example:
+
+```
+If Account.BillingCountry = 'India'
+→ Assign to India Territory
+```
+
+#### Real-Life Example:
+
+An account with Billing Country = India is visible only to users assigned to the India territory and their managers.
+
+
+#### Opportunity Access via Territory
+---
+Opportunity access follows the Account territory.
+
+#### Salesforce Setting
+
+* Enable Opportunity Access Using Territories
+
+#### Result
+
+Opportunities created under an India Account are visible only to India territory users and above.
+
+
+#### Sharing Rules (Exceptions Only)
+
+Sharing rules are used **only when extra access is required**.
+
+#### Example 1: Presales Access
+
+* Object: Opportunity
+* Shared With: Presales Public Group
+* Access Level: Read Only
+
+#### Example 2: Finance Access
+
+* Object: Opportunities, Orders
+* Shared With: Finance Group
+* Access Level: Read Only
+
+#### Real-Life Example:
+
+Finance can review revenue but cannot edit deals or pricing.
+
+
+#### Profiles and Permission Sets
+---
+#### Profiles
+
+* Minimal access
+* No sensitive permissions
+* Same profile across regions
+
+#### Permission Sets
+
+Used to control:
+
+* Discount approvals
+* Margin visibility
+* Forecast access
+* Advanced reports
+
+Security is **permission-set driven**, not profile-driven.
+
+
+#### End-to-End Security Flow
+---
+```
+OWD (Private)
+   ↓
+Role Hierarchy
+   ↓
+Territory Management
+   ↓
+Sharing Rules (Exceptions)
+   ↓
+Permission Sets
+```
+
+#### Security Testing Scenarios
+---
+#### Scenario 1: Sales Rep
+
+* Sees only own opportunities
+* Cannot see margin
+
+#### Scenario 2: Country Manager
+
+* Sees all country opportunities
+* Can approve discounts
+
+#### Scenario 3: Market VP
+
+* Read-only access
+* Full regional visibility
+
+#### Benefits
+---
+* Strong data security
+* No cross-country data leakage
+* Audit-friendly access model
+* Scalable for new regions
+
+This security model ensures **data protection, correct visibility, and scalability** by combining Private OWD, role hierarchy, territory management, controlled sharing rules, and permission sets.
+
     
 
 **7\. Lead Management**
