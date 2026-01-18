@@ -3,7 +3,7 @@
 
 **Architecture Diagram**
 --
-![Architecture Diagram](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/main/Sales Cloud Design/images/Sales Cloud Design.png)
+![Architecture Diagram]([https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/main/Sales Cloud Design/images/Sales Cloud Design.png](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/main/Sales%20Cloud%20Design/images/Sales%20Cloud%20Design.png))
 
 **1\. Project Overview**
 ------------------------
@@ -92,11 +92,11 @@ Managers can see their team’s data, but sales reps can only see their own terr
 
 #### Role Hierarchy Diagram
 ---
-![Role Hierarchy Diagram](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/main/Sales Cloud Design/images/Sales Role Hierarchy-2.png)
+![Role Hierarchy Diagram]([https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/main/Sales Cloud Design/images/Sales Role Hierarchy-2.png](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/main/Sales%20Cloud%20Design/images/Sales%20Role%20Hierarchy-2.png))
 
 #### Salesforce Configuration
 ---
-![Salesforce Configuration](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/main/Sales Cloud Design/images/SF Role Hierarchy.png)
+![Salesforce Configuration]([https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/main/Sales Cloud Design/images/SF Role Hierarchy.png](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/main/Sales%20Cloud%20Design/images/SF%20Role%20Hierarchy.png))
 
 **5\. Profiles and Permissions**
 --------------------------------
