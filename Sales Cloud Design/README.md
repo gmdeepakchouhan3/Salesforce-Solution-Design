@@ -3,7 +3,7 @@
 
 **Architecture Diagram**
 --
-![Architecture Diagram]([https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/main/Sales Cloud Design/images/Sales Cloud Design.png](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/main/Sales%20Cloud%20Design/images/Sales%20Cloud%20Design.png))
+![Architecture Diagram](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/9d65b58b415d05c29b427090688e6ee470866f7e/Sales%20Cloud%20Design/images/Sales%20Cloud%20Design.png)
 
 **1\. Project Overview**
 ------------------------
