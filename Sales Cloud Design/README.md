@@ -3,7 +3,7 @@
 
 **Architecture Diagram**
 --
-![Architecture Diagram](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/9d65b58b415d05c29b427090688e6ee470866f7e/Sales%20Cloud%20Design/images/Sales%20Cloud%20Design.png)
+![Architecture Diagram](https://github.com/gmdeepakchouhan3/SFDC-Solution-Design/blob/c3052a82c92b1b9b7c8fe8f919e8353cb8746e85/Sales%20Cloud%20Design/images/Sales%20Cloud%20Design.png)
 
 **1\. Project Overview**
 ------------------------
@@ -92,29 +92,34 @@ Managers can see their team’s data, but sales reps can only see their own terr
 
 #### Role Hierarchy Diagram
 ---
-![Role Hierarchy Diagram](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/eb0243e158edda9aabb7a555bb53b2b1c4e6114f/Sales%20Cloud%20Design/images/Sales%20Role%20Hierarchy-2.png)
+![Role Hierarchy Diagram](https://github.com/gmdeepakchouhan3/SFDC-Solution-Design/blob/2a6f9252365777871e2a6fde948bce165986ed67/Sales%20Cloud%20Design/images/Sales%20Role%20Hierarchy-2.png)
 
 #### Salesforce Configuration
 ---
-![Salesforce Configuration](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/eb0243e158edda9aabb7a555bb53b2b1c4e6114f/Sales%20Cloud%20Design/images/SF%20Role%20Hierarchy.png)
+![Salesforce Configuration](https://github.com/gmdeepakchouhan3/SFDC-Solution-Design/blob/2a6f9252365777871e2a6fde948bce165986ed67/Sales%20Cloud%20Design/images/SF%20Role%20Hierarchy.png)
 
 **5\. Profiles and Permissions**
 --------------------------------
 
-Two main profiles are used:
+One main profiles are used:
 
-*   **Standard User**
-    
 *   **Sales User**
     
 
 Extra access is given using **Permission Sets**, for example:
 
-*   Discount approval access
-    
-*   Bulk order approval access
-    
-*   Reports and dashboards access
+- Global Sales Head (Sales Core Access)
+- Sales Market VP (Sales Core Access)
+- Sales Country Manager (Sales Core Access)
+- Retailer Sales Head
+- Retailer Sales Representative
+- Wholesaler Sales Head
+- Wholesaler Sales Representative
+- D2C Sales Head
+- D2C Sales Representative
+- Discount approval access
+- Bulk order approval access
+- Reports and dashboards access
     
 
 This makes security simple and flexible.
@@ -257,13 +262,15 @@ This section defines **which Salesforce objects each role can access** and what 
 | Salesforce Object | Sales Rep          | Channel Head                | Country Manager | Market VP    | Global Sales Head (CSO) |
 | ----------------- | ------------------ | --------------------------- | --------------- | ------------ | ----------------------- |
 | Leads             | Create, Read, Edit | Create, Read, Edit          | Full            | Full         | Full                    |
-| Accounts          | Read               | Create, Read, Edit          | Full            | Full         | Full                    |
-| Contacts          | Read               | Create, Read, Edit          | Full            | Full         | Full                    |
+| Accounts          | Create, Read, Edit | Create, Read, Edit          | Full            | Full         | Full                    |
+| Contacts          | Create, Read, Edit | Create, Read, Edit          | Full            | Full         | Full                    |
 | Opportunities     | Create, Read, Edit | Create, Read, Edit, Approve | Full            | Full         | Full                    |
 | Products          | Read               | Read                        | Read            | Read         | Read                    |
 | Price Books       | Read               | Read                        | Read            | Read         | Full                    |
-| Quotes            | Create, Read       | Create, Read, Edit          | Full            | Full         | Full                    |
+| Quotes            | Create, Read, Edit | Create, Read, Edit          | Full            | Full         | Full                    |
 | Orders            | Read               | Create, Read                | Full            | Full         | Full                    |
+| Events            | Create, Read, Edit | Create, Read                | Full            | Full         | Full                    |
+| Tasks             | Create, Read, Edit | Create, Read                | Full            | Full         | Full                    |
 | Reports           | Read (My)          | Read (Team)                 | Create, Read    | Create, Read | Full                    |
 | Dashboards        | Read               | Read                        | Create, Read    | Create, Read | Full                    |
 
@@ -382,33 +389,163 @@ Global Sales Head
 
 When a Sales Rep creates an opportunity, the Channel Head, Country Manager, and Market VP can see it automatically.
 
-
-#### Territory Management (Country-Based)
+#### Territory Management (Country-Based) – Salesforce Setup
 ---
-Enterprise Territory Management is used to control **geographic data visibility**.
+**Enterprise Territory Management (ETM)** is implemented in Salesforce to control **country and market wise data visibility**. Territories decide **which records users can see**, while roles decide **who reports to whom**.
 
-#### Territory Model
+This setup ensures:
 
+* No cross-country data leakage
+* Clear market (APAC / EMEA / LATAM / NA) visibility
+* Clean forecasting and reporting
+
+
+#### Salesforce - Territory Settings
+---
+![Territory Settings](https://github.com/gmdeepakchouhan3/SFDC-Solution-Design/blob/a6e3c78d7cafc4b28f2c58b1e353e2024228345f/Sales%20Cloud%20Design/images/Territory%20Settings.png)
+
+#### Territory Model Structure (Market → Country)
+---
 ```
 Global
- ├── APAC → India
- ├── EMEA → Germany
- ├── LATAM → Brazil
- └── North America → USA
- 
+ ├── APAC
+ │    └── India
+ ├── EMEA
+ │    └── Germany
+ ├── LATAM
+ │    └── Brazil
+ └── North America
+      └── USA
 ```
 
-#### Territory Assignment Rule Example:
+* Market = Region level
+* Country = Selling territory
+
+#### Create Territory Model
+----
+```
+Setup → Territory Management → Territory Models
+→ New Territory Model
+```
+
+| Field | Value                        |
+| ----- | ---------------------------- |
+| Name  | Global Sales Territory Model |
+| State | Draft                        |
+
+
+#### Create Territories
+---
+| Territory Name | Parent Territory |
+| -------------- | ---------------- |
+| Global         | —                |
+| APAC           | Global           |
+| EMEA           | Global           |
+| NA             | Global           |
+| India          | APAC             |
+| Germany        | EMEA             |
+| USA            | NA               |
+
+
+#### Territory Assignment Rules (Country-Based)
+---
+Territories are assigned using **Account country fields**.
+
+#### Account Field Used
+
+* Billing Country (Standard)
+
+#### Example: Rules
+
+**India Territory**
 
 ```
-If Account.BillingCountry = 'India'
+If BillingCountry = 'India'
 → Assign to India Territory
 ```
 
-#### Real-Life Example:
+**Germany Territory**
 
-An account with Billing Country = India is visible only to users assigned to the India territory and their managers.
+```
+If BillingCountry = 'Germany'
+→ Assign to Germany Territory
+```
 
+**USA Territory**
+
+```
+If BillingCountry = 'United States'
+→ Assign to USA Territory
+```
+
+Accounts are auto-assigned on create or edit.
+
+#### Assign Users to Territories
+---
+Users are assigned to territories with **territory roles**.
+
+#### Territory Roles Used
+
+* Sales Rep
+* Manager
+* Executive
+
+#### Example: India Territory
+
+| User              | Salesforce Role | Territory | Territory Role  |
+| ----------------- | --------------- | --------- | --------------- |
+| India Sales Rep   | Sales Rep       | India     | Sales Rep       |
+| Channel Head      | Channel Head    | India     | Manager         |
+| Country Manager   | Country Manager | India     | Territory Owner |
+| APAC Market VP    | Market VP       | APAC      | Executive       |
+| Global Sales Head | CSO             | Global    | Executive       |
+
+
+#### How Territory and Role Hierarchy Work Together
+---
+
+| Component            | Purpose               |
+| -------------------- | --------------------- |
+| Role Hierarchy       | Manager visibility    |
+| Territory Management | Geographic visibility |
+| OWD (Private)        | Base security         |
+| Permission Sets      | Functional access     |
+
+
+#### Reports and Forecasting
+---
+
+* Pipeline by Country
+* Revenue by Market
+* Territory-based forecasts
+
+Forecast roll-up:
+
+```
+Sales Rep → Country Manager → Market VP → Global Head
+```
+
+#### Activation Checklist
+---
+Before activation:
+
+* Users assigned to territories
+* Territory rules tested
+* Sample accounts validated
+
+#### Activate Model
+```
+Territory Models → Activate
+```
+
+#### Benefits
+---
+* Clear country ownership
+* Market-level visibility
+* No manual sharing rules
+* Scalable for new countries
+
+This territory setup uses **market-to-country hierarchy** with automatic account assignment based on billing country. It ensures secure data access, clean reporting, and scalable global sales operations.
 
 #### Opportunity Access via Territory
 ---
