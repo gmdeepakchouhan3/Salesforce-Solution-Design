@@ -3,7 +3,7 @@
 
 **Architecture Diagram**
 --
-![Architecture Diagram](https://github.com/gmdeepakchouhan3/SFDC-Solution-Design/blob/c3052a82c92b1b9b7c8fe8f919e8353cb8746e85/Sales%20Cloud%20Design/images/Sales%20Cloud%20Design.png)
+![Architecture Diagram](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/e465fa2bd85e604866c98663e1bbaafe2c61c2e6/Sales%20Cloud%20Design/images/Sales%20Cloud%20Design.png)
 
 **1\. Project Overview**
 ------------------------
@@ -92,11 +92,11 @@ Managers can see their team’s data, but sales reps can only see their own terr
 
 #### Role Hierarchy Diagram
 ---
-![Role Hierarchy Diagram](https://github.com/gmdeepakchouhan3/SFDC-Solution-Design/blob/2a6f9252365777871e2a6fde948bce165986ed67/Sales%20Cloud%20Design/images/Sales%20Role%20Hierarchy-2.png)
+![Role Hierarchy Diagram](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/e465fa2bd85e604866c98663e1bbaafe2c61c2e6/Sales%20Cloud%20Design/images/Sales%20Role%20Hierarchy-2.png)
 
 #### Salesforce Configuration
 ---
-![Salesforce Configuration](https://github.com/gmdeepakchouhan3/SFDC-Solution-Design/blob/2a6f9252365777871e2a6fde948bce165986ed67/Sales%20Cloud%20Design/images/SF%20Role%20Hierarchy.png)
+![Salesforce Configuration](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/e465fa2bd85e604866c98663e1bbaafe2c61c2e6/Sales%20Cloud%20Design/images/SF%20Role%20Hierarchy.png)
 
 **5\. Profiles and Permissions**
 --------------------------------
@@ -402,7 +402,7 @@ This setup ensures:
 
 #### Salesforce - Territory Settings
 ---
-![Territory Settings](https://github.com/gmdeepakchouhan3/SFDC-Solution-Design/blob/a6e3c78d7cafc4b28f2c58b1e353e2024228345f/Sales%20Cloud%20Design/images/Territory%20Settings.png)
+![Territory Settings](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/e465fa2bd85e604866c98663e1bbaafe2c61c2e6/Sales%20Cloud%20Design/images/Territory%20Settings.png)
 
 #### Territory Model Structure (Market → Country)
 ---
