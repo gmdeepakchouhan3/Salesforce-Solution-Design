@@ -688,25 +688,54 @@ This security model ensures **data protection, correct visibility, and scalabili
 **7\. Lead Management**
 -----------------------
 
-Different lead types are created:
+Lead Management in this Salesforce Sales Cloud solution is designed to handle **different lead types across regions and countries**, ensuring the right sales team receives the right lead automatically.
 
-*   Wholesaler Leads
-    
-*   Retailer Leads
-    
-*   D2C Leads
-    
+Lead flow supports:
 
-Leads come from:
+* B2B (Wholesalers & Retailers)
+    
+* B2C (Direct-to-Consumer)
+    
+* Global markets with country-level ownership
 
-*   Website (Web-to-Lead) for D2C
-    
-*   Partners and APIs for B2B
-    
-*   Marketing campaigns
-    
+#### Lead Process
+---
+A **standard Lead Process** is defined with **channel flexibility**, so all teams follow the same lifecycle while capturing channel specific details.
 
-Leads are automatically assigned based on **country, market, and channel**. Once qualified, leads are converted into **Account, Contact, and Opportunity**.
+#### Lead Status Values
+
+| Lead Status            |
+| -----------------------|
+| Open - Not Contacted   |
+| Working - Contacted    |
+| Closed - Converted     |
+| Closed - Not Converted |
+
+
+At present, default lead statuses are in use. These can be customized by defining separate Lead Processes for B2B and D2C
+
+![Lead Process](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/fee8b47027f6beae9e3fa86321e79b0159382ccb/Sales%20Cloud%20Design/images/Lead%20Process.png)
+
+#### Lead Types (Record Types)
+---
+
+Separate Lead Record Types are created to manage different sales channels.
+
+| Lead Type          | Record Type        | Used For                 |
+| -------------------|--------------------|--------------------------|
+| Wholesaler         |	Wholesaler        |	Bulk & partner sales    |
+| Retailer           |	Retailer          |	Store / franchise sales |
+| Direct-to-Consumer | Direct-to-Consumer |	Direct online customers |
+
+Why Record Types?
+
+* Different page layouts
+
+* Different qualification fields
+
+* Channel specific validation rules
+
+![Lead Types](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/fee8b47027f6beae9e3fa86321e79b0159382ccb/Sales%20Cloud%20Design/images/Lead%20Record%20Type.png)
 
 **8\. Product and Pricing Setup**
 ---------------------------------
