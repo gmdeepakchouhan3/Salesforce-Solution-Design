@@ -1,9 +1,9 @@
 **Sales Cloud Design**
 ============================================================================
 
-**Architecture Diagram**
+**Sales Cloud Data Model**
 --
-![Architecture Diagram](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/e465fa2bd85e604866c98663e1bbaafe2c61c2e6/Sales%20Cloud%20Design/images/Sales%20Cloud%20Design.png)
+![Sales Cloud Data Model](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/0949e6a0c792d089182c8099db2ca2ec258cb0fd/Sales%20Cloud%20Design/images/Salesforce%20Sales%20Cloud%20Data%20Model.png)
 
 **1\. Project Overview**
 ------------------------
