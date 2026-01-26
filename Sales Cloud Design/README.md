@@ -259,25 +259,29 @@ This section defines **which Salesforce objects each role can access** and what 
 
 #### Object-Level Access Table
 
-| Salesforce Object | Sales Rep          | Channel Head                | Country Manager | Market VP    | Global Sales Head (CSO) |
-| ----------------- | ------------------ | --------------------------- | --------------- | ------------ | ----------------------- |
-| Leads             | Create, Read, Edit | Create, Read, Edit          | Full            | Full         | Full                    |
-| Accounts          | Create, Read, Edit | Create, Read, Edit          | Full            | Full         | Full                    |
-| Contacts          | Create, Read, Edit | Create, Read, Edit          | Full            | Full         | Full                    |
-| Opportunities     | Create, Read, Edit | Create, Read, Edit, Approve | Full            | Full         | Full                    |
-| Products          | Read               | Read                        | Read            | Read         | Read                    |
-| Price Books       | Read               | Read                        | Read            | Read         | Full                    |
-| Quotes            | Create, Read, Edit | Create, Read, Edit          | Full            | Full         | Full                    |
-| Orders            | Read               | Create, Read                | Full            | Full         | Full                    |
-| Events            | Create, Read, Edit | Create, Read                | Full            | Full         | Full                    |
-| Tasks             | Create, Read, Edit | Create, Read                | Full            | Full         | Full                    |
-| Reports           | Read (My)          | Read (Team)                 | Create, Read    | Create, Read | Full                    |
-| Dashboards        | Read               | Read                        | Create, Read    | Create, Read | Full                    |
+| Salesforce Object | Sales Rep | Channel Head | Country Manager | Market VP | Global Sales Head |
+| --- | --- | --- | --- | --- | --- |
+| Lead | C, R, E | C, R, E | C, R, E | R | R |
+| Account | R | R, E | R, E | R | R |
+| Contact | R | R, E | R, E | R | R |
+| Opportunity | C, R, E | C, R, E | C, R, E | R | R |
+| Opportunity Product | C, R, E | C, R, E | R | R | R |
+| Quote | C, R | C, R, E | R | R | R |
+| Order | R | R | R | R | R |
+| Campaign Member | R | R | R | R | R |
+| Task / Event | C, R, E | C, R, E | C, R, E | R | R |
+| Report | R (Own) | R (Team) | R (Country) | R (Region) | R (Global) |
+| Approval Requests | ❌ | Approve | Approve | Approve | Approve |
+
+**C: Create, R: Read, E: Edit**
+- No Delete access for business users (best practice)
+- Assign related object page layouts/Flexipage to the New Sales Profile
 
 #### Real-Life Example:
 
-A **Sales Rep in India** can create and update opportunities for their assigned retailer but **cannot edit price books**. The **Country Manager** can review and adjust opportunities across India.
-
+A Sales Rep can:
+- Create leads & opportunities    
+- But **cannot delete opportunities** or modify pricing after approval
 
 
 #### Field-Level Security (FLS) Matrix
@@ -289,13 +293,14 @@ Field-level security ensures **sensitive data is visible only to the right roles
 
 | Field Name         | Sales Rep  | Channel Head | Country Manager | Market VP | CSO  |
 | ------------------ | ---------- | ------------ | --------------- | --------- | ---- |
-| Opportunity Amount | Edit       | Edit         | Edit            | Read      | Read |
-| Discount %         | Edit (≤7%) | Edit         | Edit            | Read      | Read |
-| Margin %           | Hidden     | Read         | Read            | Read      | Read |
-| Stage              | Edit       | Edit         | Edit            | Read      | Read |
-| Forecast Category  | Read       | Edit         | Edit            | Edit      | Edit |
-| Close Date         | Edit       | Edit         | Edit            | Read      | Read |
+| Opportunity Amount | E       | E         | E            | R      | R |
+| Discount %         | E (≤7%) | E         | E            | R      | R |
+| Margin %           | ❌       | R         | E            | R      | R |
+| Stage              | E       | E         | E            | R      | R |
+| Forecast Category  | R       | E         | E            | E      | E |
+| Close Date         | E       | E         | E            | R      | R |
 
+**R: Read, E: Edit**
 #### Real-Life Example:
 
 A **Sales Rep** can enter discounts up to 7%, but **cannot see margin percentage**. The **Channel Head** can view margins before approving discounts.
@@ -311,20 +316,23 @@ This section explains access to **product catalog and pricing-related fields**, 
 
 | Field Name     | Sales Rep | Channel Head | Country Manager | Market VP | CSO  |
 | -------------- | --------- | ------------ | --------------- | --------- | ---- |
-| Product Name   | Read      | Read         | Read            | Read      | Read |
-| Product Family | Read      | Read         | Read            | Read      | Read |
-| Cost Price     | Hidden    | Hidden       | Read            | Read      | Read |
-| Active         | Read      | Read         | Edit            | Edit      | Edit |
+| Product Name   | R      | R         | R            | R      | R |
+| Product Family | R      | R         | R            | R      | R |
+| Cost Price     | ❌      | ❌         | R            | R      | R |
+| Active         | R      | R         | E            | E      | E |
 
+**R: Read, E: Edit, H: Hidden**
 
 #### Price Book Entry Fields
 
 | Field Name       | Sales Rep | Channel Head | Country Manager | Market VP | CSO  |
 | ---------------- | --------- | ------------ | --------------- | --------- | ---- |
-| List Price       | Read      | Read         | Read            | Read      | Read |
-| Discounted Price | Read      | Read         | Edit            | Edit      | Edit |
-| Currency         | Read      | Read         | Read            | Read      | Read |
-| Volume Tier      | Read      | Read         | Edit            | Edit      | Edit |
+| List Price       | R      | R         | R            | R      | R |
+| Discounted Price | R      | R         | E            | E      | E |
+| Currency         | R      | R         | R            | R      | R |
+| Volume Tier      | R      | R         | E            | E      | E |
+
+**R: Read, E: Edit**
 
 #### Real-Life Example:
 
@@ -359,6 +367,8 @@ OWD defines the base level of access for all users.
 | Accounts      | Private              | Access controlled by territory      |
 | Contacts      | Controlled by Parent | Follows Account visibility          |
 | Leads         | Private              | No cross-rep visibility             |
+| Campaign      | Private              | Sales rep drives immediate revenue via high-intensity, targeted action               |
+| Campaign Member | Controlled by Parent | Follows Campaign visiblity               |
 | Quotes        | Private              | Pricing is sensitive                |
 | Orders        | Private              | Financial data protection           |
 
@@ -404,6 +414,31 @@ This setup ensures:
 ---
 ![Territory Settings](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/e465fa2bd85e604866c98663e1bbaafe2c61c2e6/Sales%20Cloud%20Design/images/Territory%20Settings.png)
 
+#### Territory Types with Priority (Very Important)
+---
+
+Territory Types define **level + priority**. Priority decides which territory wins when an Account matches multiple territories.
+
+#### Priority Order (High → Low)
+
+| Priority    | Territory Type     | Purpose                    |
+| ----------- | ------------------ | -------------------------- |
+| 1 (Highest) | Country Territory  | Actual selling & ownership |
+| 2           | Regional Territory | Regional visibility        |
+| 3 (Lowest)  | Global Territory   | Executive reporting        |
+
+#### Real-life Example
+
+Account Country = India, Region = APAC
+
+Matches:
+- India (Country)
+- APAC (Region)
+
+India territory wins because **Country has higher priority**.
+
+![Territory Types](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/ad73a0de9e244b9ee92f6f48d0d91dc44fd08987/Sales%20Cloud%20Design/images/Territory%20Types.png)
+
 #### Territory Model Structure (Market → Country)
 ---
 ```
@@ -446,6 +481,9 @@ Setup → Territory Management → Territory Models
 | Germany        | EMEA             |
 | USA            | NA               |
 
+![Territory Model](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/ad73a0de9e244b9ee92f6f48d0d91dc44fd08987/Sales%20Cloud%20Design/images/Territory%20Model.png)
+
+![Territory-India](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/ad73a0de9e244b9ee92f6f48d0d91dc44fd08987/Sales%20Cloud%20Design/images/Territory-India.png)
 
 #### Territory Assignment Rules (Country-Based)
 ---
@@ -479,6 +517,10 @@ If BillingCountry = 'United States'
 ```
 
 Accounts are auto-assigned on create or edit.
+
+![Territory Assignment Rule](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/ad73a0de9e244b9ee92f6f48d0d91dc44fd08987/Sales%20Cloud%20Design/images/Territory%20Assignment%20Rule.png)
+
+![Territory Accounts](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/ad73a0de9e244b9ee92f6f48d0d91dc44fd08987/Sales%20Cloud%20Design/images/Territory%20Accounts.png)
 
 #### Assign Users to Territories
 ---
