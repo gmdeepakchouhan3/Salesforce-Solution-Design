@@ -5,6 +5,10 @@
 --
 ![Sales Cloud Data Model](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/0949e6a0c792d089182c8099db2ca2ec258cb0fd/Sales%20Cloud%20Design/images/Salesforce%20Sales%20Cloud%20Data%20Model.png)
 
+**Architecture Diagram**
+--
+![Architecture Diagram](https://github.com/gmdeepakchouhan3/Salesforce-Solution-Design/blob/6e7d37dcec5617d1410e6ab82753343140be936a/Sales%20Cloud%20Design/images/Sales%20Cloud%20Design.png)
+
 **1\. Project Overview**
 ------------------------
 
